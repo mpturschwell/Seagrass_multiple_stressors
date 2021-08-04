@@ -7,9 +7,7 @@
 # ------------------------------------------------------------------------------------------------------
 
 # setwd and load libraries 
-# setwd("/Users/s2904436/Dropbox/Multi-stressor/Code")
 library(purrr)
-#library(deSolve)
 library(ggplot2)
 library(tidyr)
 library(patchwork)
@@ -17,22 +15,20 @@ library(dplyr)
 library(gridExtra)
 library(gganimate)
 library(RColorBrewer)
-#library(DataGLMRepeat) 
+library(ggthemes)
 
+mytime <- format(Sys.time(), "%Y_%m_%d")
 
 # source functions 
 source("Functions/MC_conversion_functions.r")
 source("Functions/get_stressor_interaction.R")
-
 source("Functions/photo_temp_function.R")
 source("Functions/resp_function.R")
 source("Functions/photo_light_shade_function.R")
 source("Functions/photosyn_shade_function.R")
 #source("Functions/net.growth_shade_function.R")
-
 source("Functions/Foodweb-functions/biomass.integration_shade_function_consumer_foodweb.R")
 source("Functions/Foodweb-functions/MC_dBdt_shade_function_consumer_foodweb.R")
-
 source("Functions/MC_attack_mort_temp_scaling_function.R")
 
 
@@ -166,17 +162,15 @@ g1C <- ggplot(Out, aes(x = time*this_param_set[["dt"]], y = biomass, colour = St
   ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
   theme_bw()+
   geom_hline(yintercept=K, lty = 2, size = 1.5)+
-  scale_y_continuous(breaks = seq(100, 600, 100))
+  scale_y_continuous(breaks = seq(100, 600, 100))+
+  theme_clean()
 g1C
 
-#ggsave(path = "Plots/Sensitivity", filename = "2020-08-10_FOODWEB_sensitivity.png", g, width = 8, height = 6, units = c("in"), dpi = 300)
-
-Figure1 <- g1A/g1B/g1C
-Figure1 <- Figure1 + plot_annotation(tag_levels = 'A')
-ggsave(path = "Plots", filename = "2021-06-15_Fig1_ABC.png", Figure1 , width = 8, height = 12, units = c("in"), dpi = 300)
+# YOU MUST RUN Figure1B in the BIOMASS_v2.R script first
 Figure2 <- g1B/g1C
 Figure2 <- Figure2 + plot_annotation(tag_levels = 'A')
-ggsave(path = "Plots", filename = "2021-06-15_Fig1_BC.png", Figure2 , width = 8, height = 8, units = c("in"), dpi = 300)
+Figure2
+ggsave(path = "Plots", filename = paste0(mytime, "_Fig2.png"), Figure2 , width = 8, height = 8, units = c("in"), dpi = 300)
 
 
 
@@ -217,7 +211,7 @@ g5A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) +
-  theme_bw()
+  theme_clean()
 g5A
 
 
@@ -233,11 +227,11 @@ g5B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) + labs(color = "Light") +
-  theme_bw()
+  theme_clean()
 g5B
 
 fig5 <- g5A/ g5B
 fig5 <-fig5 + plot_annotation(tag_levels = 'A')
 fig5
-ggsave(path = "Plots", filename = "2021-06-15_FOODWEB_var_magnitude_TEMP-LIGHT.png", fig5, width = 10, height = 10, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure5_FOODWEB_TEMP-LIGHT.png"), fig5, width = 10, height = 10, units = c("in"), dpi = 300)
 

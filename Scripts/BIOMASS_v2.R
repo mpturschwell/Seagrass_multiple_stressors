@@ -4,6 +4,8 @@ source("Functions/MC_conversion_functions.r")
 source("Functions/population_model_analytical.R")
 source("Functions/get_stressor_interaction.R")
 
+mytime <- format(Sys.time(), "%Y_%m_%d")
+
 # Specify base parameter set ------------------------------------------------------
 
 this_param_set <- list(
@@ -39,6 +41,7 @@ plot( y = B_vect, x = time_vect)
 library(tidyverse)
 library(RColorBrewer)
 library(patchwork)
+library(ggthemes)
 
 # Generate the treatments we want to simulate
 tempsens <- c(18:42)
@@ -94,9 +97,13 @@ g1B <- ggplot(experiment_data, aes(x = t, y = B, colour = Stressor))+
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
   theme_bw()+ scale_y_continuous(breaks = seq(100, 600, 100)) + 
-  geom_hline(yintercept=B.max, lty = 2, size = 1.5)
+  geom_hline(yintercept=B.max, lty = 2, size = 1.5)+
+  theme_clean()
 
 g1B
+
+ggsave(path = "Plots", filename = paste0(mytime, "_figure3.png"), g1B, width = 10, height = 10, units = c("in"), dpi = 300)
+
 
 #ggsave(path = "Plots/Sensitivity", filename = "2020-08-10_Biomass_sensitivity.png", g, width = 8, height = 6, units = c("in"), dpi = 300)
 
@@ -152,7 +159,7 @@ g4A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) +
-  theme_bw()
+  theme_clean()
 g4A
 
 
@@ -168,14 +175,14 @@ g4B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) + labs(color = "Light") +
-  theme_bw()
+  theme_clean()
 g4B
 
 fig4 <- g4A/ g4B
 fig4 <- fig4 + plot_annotation(tag_levels = 'A')
 fig4
 
-ggsave(path = "Plots", filename = "2021-06-15_BIOMASS_var_magnitude_TEMP-LIGHT.png", fig4, width = 10, height = 10, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure4_BIOMASS_TEMP-LIGHT.png"), fig4, width = 10, height = 10, units = c("in"), dpi = 300)
 
 
 
