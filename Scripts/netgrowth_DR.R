@@ -56,29 +56,29 @@ B_range <- c(0, this_param_set[["B.max"]]*1.25)
 
 # Plot a line for ggplot
 line_TI <- function(T., I.){
-  geom_line(aes(x = B_range/this_param_set[["B.max"]], y = D_R(T. = T., I. = I., B_range = B_range), 
+  geom_line(aes(x = B_range/this_param_set[["B.max"]]*100, y = D_R(T. = T., I. = I., B_range = B_range), 
                      colour = paste0("Temp = ", T., ", Light = ", I.) ))
 }
 
-colours <-  c("Temp = 42, Light = 400" = "blue",
-              "Temp = 30, Light = 400" = "green",
-              "Temp = 42, Light = 200" = "purple",
-              "Temp = 30, Light = 200" = "orange")
+colours <-  c("Temp = 42, Light = 200" = "red",
+              "Temp = 42, Light = 400" = "goldenrod",
+              "Temp = 30, Light = 200" = "gold",
+              "Temp = 30, Light = 400" = "yellow")
 
 p1 <- ggplot() + 
-  line_TI(42, 400) + 
-  line_TI(30, 400) + 
   line_TI(42, 200) + 
+  line_TI(42, 400) + 
   line_TI(30, 200) + 
+  line_TI(30, 400) + 
   theme_bw() +
-  geom_hline(yintercept = 0, lty = "dashed") + geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0, lty = "dashed") + geom_vline(xintercept = c(0,100), lty = "dotted") +
   labs(x="Carrying capacity %", y = expression(D[R]), color = "Treatment") +
   scale_color_manual(values = colours)
 
 # One for current system
 this_param_set[["T.opt"]] <- 35
 p1
-ggsave(path = "Plots", filename = "2021-07-21_netgrowth_DR_Topt-35.png",
+ggsave(path = "Plots", filename = "2021-08-04_netgrowth_DR_Topt-35.png",
        p1, width = 10, height = 10, units = c("in"), dpi = 300)
 
 # Change Topt
