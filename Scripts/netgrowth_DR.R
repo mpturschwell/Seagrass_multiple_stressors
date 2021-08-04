@@ -1,6 +1,7 @@
 
 library(purrr)
 library(tidyverse)
+library(ggthemes)
 
 source("Functions/resp_function.R")
 source("Functions/MC_conversion_functions.R")
@@ -73,13 +74,14 @@ p1 <- ggplot() +
   theme_bw() +
   geom_hline(yintercept = 0, lty = "dashed") + geom_vline(xintercept = c(0,100), lty = "dotted") +
   labs(x="Carrying capacity %", y = expression(D[R]), color = "Treatment") +
-  scale_color_manual(values = colours)
+  scale_color_manual(values = colours)+
+  theme_clean()
 
 # One for current system
 this_param_set[["T.opt"]] <- 35
 p1
 ggsave(path = "Plots", filename = "2021-08-04_netgrowth_DR_Topt-35.png",
-       p1, width = 10, height = 10, units = c("in"), dpi = 300)
+       p1, width = 10, height = 8, units = c("in"), dpi = 300)
 
 # Change Topt
 this_param_set[["T.opt"]] <- 20
