@@ -60,7 +60,7 @@ B_range <- c(0, this_param_set[["B.max"]]*1.25)
 # Plot a line for ggplot
 line_TI <- function(T., I.){
   geom_line(aes(x = B_range/this_param_set[["B.max"]]*100, y = D_R(T. = T., I. = I., B_range = B_range), 
-                     colour = paste0("Temp = ", T., ", Light = ", I.) ))
+                     colour = paste0("Temp = ", T., ", Light = ", I.) ), size = 2)
 }
 
 colours <-  c("Temp = 42, Light = 200" = "red",
@@ -82,7 +82,7 @@ p1 <- ggplot() +
 # One for current system
 this_param_set[["T.opt"]] <- 35
 p1
-ggsave(path = "Plots", filename = paste0(mytime, "_netgrowth_DR_Topt-35.png"),
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure2_NETGROWTH_DR_Topt-35.png"),
        p1, width = 10, height = 8, units = c("in"), dpi = 300)
 
 # Change Topt
