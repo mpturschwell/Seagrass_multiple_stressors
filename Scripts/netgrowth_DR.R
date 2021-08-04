@@ -11,6 +11,8 @@ source("Functions/photo_temp_function.R")
 source("Functions/net.growth_shade_function.R")
 #source("Functions/get_stressor_interaction.R")
 
+mytime <- format(Sys.time(), "%Y_%m_%d")
+
 this_param_set <- list(
   Ca = 1,
   B.max = 667, 
@@ -80,13 +82,13 @@ p1 <- ggplot() +
 # One for current system
 this_param_set[["T.opt"]] <- 35
 p1
-ggsave(path = "Plots", filename = "2021-08-04_netgrowth_DR_Topt-35.png",
+ggsave(path = "Plots", filename = paste0(mytime, "_netgrowth_DR_Topt-35.png"),
        p1, width = 10, height = 8, units = c("in"), dpi = 300)
 
 # Change Topt
 this_param_set[["T.opt"]] <- 20
 p1
-ggsave(path = "Plots", filename = "2021-07-21_netgrowth_DR_Topt-20.png",
+ggsave(path = "Plots", filename = paste0(mytime, "_netgrowth_DR_Topt-20.png"),
        p1, width = 10, height = 10, units = c("in"), dpi = 300)
 
 # Change Topt
