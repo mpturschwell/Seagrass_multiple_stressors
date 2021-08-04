@@ -5,20 +5,13 @@ Turschwell MP, Ashauer R, Campbell MD, Connolly R, Connolly S, Côté IM, de Lae
 
 ## The Motivation
 
-Give a brief summary on the project aims ...
+Testing for synergy and antagonism is trivial without a mechanistic understanding of the processes that lead to changes in our biological endpoint of interest, and does not promote an understanding of how stressors impact individuals, populations, communities and ecosystems 
 
 
 ## TODO List
 
-* Something you have to do
-* Another thing you have to do
-...
-
-## Ideas
-
-* Idea 1
-* Idea 2
-...
+* add text describing phase plots 
+* confirm sensitivity analyis is suitable
 
 
 ## Other Important Details
@@ -27,22 +20,3 @@ Give a brief summary on the project aims ...
 
 Specify the confidentiality of the project and the data here ...
 
-### Important section 1
-
-Include details of section one. Where section 1 might be one of the following: Experimental methods, Statistical analyses, Data manipulation, Conceptualization, Caveats, Errors etc. Some of these sections could be copied directly into a manuscript.
-
-### Important section 2
-
-Include details of section 2 ...
-
-### Important section 3
-
-Include details of section 3 ...
-
-###
-...
-###
-
-### Important section N
-
-Include details of section N ...
