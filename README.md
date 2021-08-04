@@ -1,6 +1,6 @@
-# Project title
+# Interactive effects of multiple stressors vary with temporal variation, stressor magnitude, and across biological levels of organisation
 
-Author names here ...
+Turschwell MP, Ashauer R, Campbell MD, Connolly R, Connolly S, Côté IM, de Laender F, Jackson M, Kattwinkel M, Mantyka-Pringle C, Schäfer R, Sievers M, van den Brink P & Brown CJ
 
 
 ## The Motivation
