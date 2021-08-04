@@ -102,7 +102,7 @@ g1B <- ggplot(experiment_data, aes(x = t, y = B, colour = Stressor))+
 
 g1B
 
-ggsave(path = "Plots", filename = paste0(mytime, "_figure3.png"), g1B, width = 10, height = 10, units = c("in"), dpi = 300)
+#ggsave(path = "Plots", filename = paste0(mytime, "_Figure3.png"), g1B, width = 10, height = 10, units = c("in"), dpi = 300)
 
 
 #ggsave(path = "Plots/Sensitivity", filename = "2020-08-10_Biomass_sensitivity.png", g, width = 8, height = 6, units = c("in"), dpi = 300)

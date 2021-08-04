@@ -170,7 +170,7 @@ g1C
 Figure2 <- g1B/g1C
 Figure2 <- Figure2 + plot_annotation(tag_levels = 'A')
 Figure2
-ggsave(path = "Plots", filename = paste0(mytime, "_Fig2.png"), Figure2 , width = 8, height = 8, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure3.png"), Figure2 , width = 8, height = 8, units = c("in"), dpi = 300)
 
 
 

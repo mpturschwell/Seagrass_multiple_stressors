@@ -88,7 +88,7 @@ ggsave(path = "Plots", filename = paste0(mytime, "_Figure2_NETGROWTH_DR_Topt-35.
 # Change Topt
 this_param_set[["T.opt"]] <- 20
 p1
-ggsave(path = "Plots", filename = paste0(mytime, "_netgrowth_DR_Topt-20.png"),
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure2_netgrowth_DR_Topt-20.png"),
        p1, width = 10, height = 10, units = c("in"), dpi = 300)
 
 # Change Topt
