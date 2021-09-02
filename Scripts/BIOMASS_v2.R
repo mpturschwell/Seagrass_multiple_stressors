@@ -129,12 +129,12 @@ experiment_data2 <- compare_param(params = this_param_set, t = time_vect, T. = t
 light_for_temp <- 200
 temp_for_light <- 42
 
-temperature_data <- rbind(get_stressor_interaction(data = experiment_data2, temp = 20, light = light_for_temp),
-                          get_stressor_interaction(data = experiment_data2, temp = 30, light = light_for_temp),
+temperature_data <- rbind(get_stressor_interaction(data = experiment_data2, temp = 36, light = light_for_temp),
+                          get_stressor_interaction(data = experiment_data2, temp = 38, light = light_for_temp),
                           get_stressor_interaction(data = experiment_data2, temp = 40, light = light_for_temp),
                           get_stressor_interaction(data = experiment_data2, temp = 42, light = light_for_temp)) %>% within({
                             Days <-  t
-                            T. <- factor(T., levels = c(42, 40, 30, 20))
+                            T. <- factor(T., levels = c(42, 40, 38, 36))
                           })
 
 light_data <- rbind(get_stressor_interaction(data = experiment_data2, temp = temp_for_light, light = 200),
