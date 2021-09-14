@@ -163,14 +163,20 @@ g1C <- ggplot(Out, aes(x = time*this_param_set[["dt"]], y = biomass, colour = St
   theme_bw()+
   geom_hline(yintercept=K, lty = 2, size = 1.5)+
   scale_y_continuous(breaks = seq(100, 600, 100))+
-  theme_clean()
+  theme_clean()+
+  ggtitle("Consumer-resource model")+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
+
 g1C
 
 # YOU MUST RUN Figure1B in the BIOMASS_v2.R script first
 Figure2 <- g1B/g1C
 Figure2 <- Figure2 + plot_annotation(tag_levels = 'A')
 Figure2
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure3.png"), Figure2 , width = 8, height = 8, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure3_250d.png"), Figure2 , width = 8, height = 8, units = c("in"), dpi = 300)
 
 
 
@@ -211,7 +217,11 @@ g5A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) +
-  theme_clean()
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 g5A
 
 
@@ -227,7 +237,11 @@ g5B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) + labs(color = "Light") +
-  theme_clean()
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 g5B
 
 fig5 <- g5A/ g5B

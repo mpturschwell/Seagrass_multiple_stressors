@@ -95,7 +95,7 @@ for (i in 1:nrow(templight)){
   lotkaVolterra.nullclines <- nullclines(dBdt.s.consumer.foodweb, 
                                          xlim = c(-1, 600), ylim = c(-1, 130),
                                          parameters = this_param_set, points = 500,
-                                         col = c("blue", "red"),
+                                         col = c("blue", "red"), lwd = 3,
                                          add.legend = FALSE, cex = 2.5)
   
   lotkaVolterra.trajectory <- trajectory(dBdt.s.consumer.foodweb, y0 = y0, tlim = c(0,1000), tstep = 1/24,

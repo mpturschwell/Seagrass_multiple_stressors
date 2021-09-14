@@ -28,8 +28,9 @@ this_param_set <- list(
 # Compute the biomass -----------------------------------------------------
 
 # CHOOSE times
-time_vect <- seq(0, 365, by = 1)
+#time_vect <- seq(0, 365, by = 1)
 
+time_vect <- seq(0, 250, by = 1)
 # Compute B
 B_vect <- B_t(params = this_param_set, t = time_vect) 
 
@@ -98,7 +99,12 @@ g1B <- ggplot(experiment_data, aes(x = t, y = B, colour = Stressor))+
   ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
   theme_bw()+ scale_y_continuous(breaks = seq(100, 600, 100)) + 
   geom_hline(yintercept=B.max, lty = 2, size = 1.5)+
-  theme_clean()
+  theme_clean()+
+  ggtitle("Population sub-model")+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 
 g1B
 
@@ -159,7 +165,11 @@ g4A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) +
-  theme_clean()
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 g4A
 
 
@@ -175,14 +185,18 @@ g4B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(I[R])) + labs(color = "Light") +
-  theme_clean()
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 g4B
 
 fig4 <- g4A/ g4B
 fig4 <- fig4 + plot_annotation(tag_levels = 'A')
 fig4
 
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure4_BIOMASS_TEMP-LIGHT.png"), fig4, width = 10, height = 10, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure4_250_d.png"), fig4, width = 10, height = 10, units = c("in"), dpi = 300)
 
 
 

@@ -75,10 +75,16 @@ p1 <- ggplot() +
   line_TI(30, 400) + 
   theme_bw() +
   geom_hline(yintercept = 0, lty = "dashed") + geom_vline(xintercept = c(0,100), lty = "dotted") +
-  labs(x="Carrying capacity %", y = expression(D[R]), color = "Treatment") +
+  labs(y = expression(D[R]), color = "Treatment") +
+  xlab(bquote('Net production rate ('*B^-1~d^-1*') expressed as a percentage of carrying capacity')) +
   scale_color_manual(values = colours)+
-  theme_clean()
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 
+p1
 # One for current system
 this_param_set[["T.opt"]] <- 35
 p1
