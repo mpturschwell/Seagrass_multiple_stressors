@@ -86,15 +86,16 @@ experiment_data <- compare_param(params = this_param_set, t = time_vect, T. = c(
 
 # Mischa's biomass plots ----------------------------------------------------------
 
-myColors <- brewer.pal(4,"YlOrRd")
-names(myColors) <- levels(experiment_data$Stressor)
-colScale <- scale_colour_manual(name = "Stressor",values = myColors)
+#myColors <- brewer.pal(4,"YlOrRd")
+myColours <- c("#020006", "#388416", "#095fad", "#E31A1C")
+names(myColours) <- levels(experiment_data$Stressor)
+colScale <- scale_colour_manual(name = "Stressor",values = myColours)
 
 B.max <-  this_param_set$B.max
 g1B <- ggplot(experiment_data, aes(x = t, y = B, colour = Stressor))+
   geom_line(size = 2)+
-  #colScale+
-  xlab("Time (days)") + labs(colour = "Stressor") +
+  colScale+
+  xlab("Time (days)") + #labs(colour = "Stressor") +
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
   theme_bw()+ scale_y_continuous(breaks = seq(100, 600, 100)) + 
@@ -152,6 +153,10 @@ light_data <- rbind(get_stressor_interaction(data = experiment_data2, temp = tem
                     })
 
 
+myColors <- brewer.pal(4,"YlOrRd")
+names(myColors) <- levels(experiment_data$Stressor)
+colScale <- scale_colour_manual(name = "Stressor",values = myColors)
+
 names(myColors) <- rev(levels(temperature_data$T.))
 colScale <- scale_colour_manual(name = "Temperature",values = myColors)
 K <-  this_param_set$B.max
@@ -164,12 +169,13 @@ g4A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) +
+  ylab(expression(rho)) +
   theme_clean()+
+  ggtitle("Population sub-model")+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 14))+
-  theme(axis.title.y = element_text(size = 14))
+  theme(axis.title.x = element_text(size = 18))+
+  theme(axis.title.y = element_text(size = 18))
 g4A
 
 
@@ -183,13 +189,14 @@ g4B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   # ylim(-1.25,1.25)+
   xlab("Time (days)")  + 
+  ggtitle("Population sub-model")+
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) + labs(color = "Light") +
+  ylab(expression(rho)) + labs(color = "Light") +
   theme_clean()+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 14))+
-  theme(axis.title.y = element_text(size = 14))
+  theme(axis.title.x = element_text(size = 18))+
+  theme(axis.title.y = element_text(size = 18))
 g4B
 
 fig4 <- g4A/ g4B
@@ -197,7 +204,6 @@ fig4 <- fig4 + plot_annotation(tag_levels = 'A')
 fig4
 
 ggsave(path = "Plots", filename = paste0(mytime, "_Figure4_250_d.png"), fig4, width = 10, height = 10, units = c("in"), dpi = 300)
-
 
 
 # Trial plot time vs temp -------------------------------------------------

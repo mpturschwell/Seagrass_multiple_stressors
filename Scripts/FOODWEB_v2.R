@@ -149,15 +149,16 @@ Out <- rbind(control, Light, Temp, stress) %>% within({
 
 
 library(RColorBrewer)
-myColors <- brewer.pal(4,"YlOrRd")
-names(myColors) <- levels(Out$Stressor)
-colScale <- scale_colour_manual(name = "Stressor",values = myColors)
+#myColors <- brewer.pal(4,"YlOrRd")
+myColours <- c("#020006", "#388416", "#095fad", "#E31A1C")
+names(myColours) <- levels(Out$Stressor)
+colScale <- scale_colour_manual(name = "Stressor",values = myColours)
 
 K <-  this_param_set$B.max
 g1C <- ggplot(Out, aes(x = time*this_param_set[["dt"]], y = biomass, colour = Stressor))+
   geom_line(size = 2)+
-  #colScale+
-  xlab("Time (days)") + labs(colour = "Stressor") + 
+  colScale+
+  xlab("Time (days)") + #labs(colour = "Stressor") + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
   theme_bw()+
@@ -216,12 +217,13 @@ g5A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) +
+  ylab(expression(rho)) +
   theme_clean()+
+  ggtitle("Consumer-resource model")+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 14))+
-  theme(axis.title.y = element_text(size = 14))
+  theme(axis.title.x = element_text(size = 18))+
+  theme(axis.title.y = element_text(size = 18))
 g5A
 
 
@@ -235,13 +237,14 @@ g5B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   # ylim(-1.25,1.25)+
   xlab("Time (days)")  + 
+  ggtitle("Consumer-resource model")+
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) + labs(color = "Light") +
+  ylab(expression(rho)) + labs(color = "Light") +
   theme_clean()+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 14))+
-  theme(axis.title.y = element_text(size = 14))
+  theme(axis.title.x = element_text(size = 18))+
+  theme(axis.title.y = element_text(size = 18))
 g5B
 
 fig5 <- g5A/ g5B
