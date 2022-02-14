@@ -2,6 +2,7 @@
 library(purrr)
 library(tidyverse)
 library(ggthemes)
+library(ggplot2)
 library(patchwork)
 
 source("Functions/resp_function.R")
@@ -9,7 +10,9 @@ source("Functions/MC_conversion_functions.R")
 source("Functions/photo_light_shade_function.R")
 source("Functions/photosyn_shade_function.R")
 source("Functions/photo_temp_function.R")
+
 source("Functions/net.growth_shade_function.R")
+source("Functions/get_stressor_interaction.R")
 #source("Functions/get_stressor_interaction.R")
 
 mytime <- format(Sys.time(), "%Y_%m_%d")
@@ -29,7 +32,6 @@ this_param_set <- list(
   RT.max = 45.6 # Resp Maximum temperature      degrees C
 )
 
-
 D_R <- function(T., I., B_range, T.control = 35, I.control = 1000, params = this_param_set){
   
   lwr_B <-  B_range[[1]]
@@ -44,8 +46,8 @@ D_R <- function(T., I., B_range, T.control = 35, I.control = 1000, params = this
   
   Y_x <- function(T_type, I_type, Ca_type){
     net_growth[ df$T. == ifelse(T_type == "C", T.control, T.) & 
-                      df$I. == ifelse(I_type == "C", I.control, I.) & 
-                      df$Ca == Ca_type]
+                  df$I. == ifelse(I_type == "C", I.control, I.) & 
+                  df$Ca == Ca_type]
   }
   
   D_R_lwr <- Y_x("C", "C", lwr_B) +  Y_x("S", "S", lwr_B) - 
@@ -62,7 +64,7 @@ B_range <- c(0, this_param_set[["B.max"]]*1.25)
 # Plot a line for ggplot
 line_TI <- function(T., I.){
   geom_line(aes(x = B_range/this_param_set[["B.max"]]*100, y = D_R(T. = T., I. = I., B_range = B_range), 
-                     colour = paste0("Temp = ", T., ", Light = ", I.) ), size = 2)
+                colour = paste0("Temp = ", T., ", Light = ", I.) ), size = 2)
 }
 
 colours <-  c("Temp = 42, Light = 200" = "#E31A1C",
@@ -90,9 +92,9 @@ p1a <- ggplot() +
 p1a
 
 colours2 <-  c("Temp = 42, Light = 200" = "#E31A1C",
-              "Temp = 42, Light = 400" =  "#FD8D3C",
-              "Temp = 42, Light = 600" =  "#FECC5C",
-              "Temp = 42, Light = 800" =  "#FFFFB2")
+               "Temp = 42, Light = 400" =  "#FD8D3C",
+               "Temp = 42, Light = 600" =  "#FECC5C",
+               "Temp = 42, Light = 800" =  "#FFFFB2")
 
 p1b <- ggplot() + 
   line_TI(42, 200) + 
@@ -116,7 +118,7 @@ p1 <- p1a / p1b
 p1 <- p1 + plot_annotation(tag_levels = 'A')
 p1
 
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure2.tiff"), p1, width = 12, height = 12, units = c("in"), dpi = 600)
+ggsave(path = "Plots", filename = paste0(mytime, "_DR_a-b.png"), p1, width = 12, height = 12, units = c("in"), dpi = 300)
 
 
 

@@ -1,16 +1,4 @@
-
-library(tidyverse)
-library(RColorBrewer)
-library(patchwork)
-library(ggthemes)
-library(purrr)
-library(ggplot2)
-library(tidyr)
-library(dplyr)
-library(gridExtra)
-
-mytime <- format(Sys.time(), "%Y_%m_%d")
-
+#fig 3
 
 source("Functions/MC_conversion_functions.r")
 source("Functions/population_model_analytical.R")
@@ -38,15 +26,29 @@ this_param_set <- list(
 
 
 # Compute the biomass -----------------------------------------------------
+
+# CHOOSE times
+#time_vect <- seq(0, 365, by = 1)
+
 time_vect <- seq(0, 250, by = 1)
 # Compute B
 B_vect <- B_t(params = this_param_set, t = time_vect) 
 
+plot( y = B_vect, x = time_vect)
+
+
 # Compare treatments ------------------------------------------------------
+
+library(tidyverse)
+library(RColorBrewer)
+library(patchwork)
+library(ggthemes)
+
 # Generate the treatments we want to simulate
 tempsens <- c(18:42)
 lightsens <- seq(200, 1000, by = 200)
 templight <- expand.grid(T. = tempsens, I. = lightsens)
+
 
 compare_param <- function(params, t, ...){
   # ================================
@@ -82,72 +84,45 @@ experiment_data <- compare_param(params = this_param_set, t = time_vect, T. = c(
                                                                "Temp + Light Stress")))
 
 
-experiment_data2 <- compare_param(params = this_param_set, t = time_vect, T. = templight$T., I. =templight$I.) %>% 
-  do.call("rbind", .)
+# Mischa's biomass plots ----------------------------------------------------------
 
-light_for_temp <- 200
-temp_for_light <- 42
+#myColors <- brewer.pal(4,"YlOrRd")
+myColours <- c("#020006", "#388416", "#095fad", "#E31A1C")
+names(myColours) <- levels(experiment_data$Stressor)
+colScale <- scale_colour_manual(name = "Stressor",values = myColours)
 
-temperature_data <- rbind(get_stressor_interaction(data = experiment_data2, temp = 36, light = light_for_temp),
-                          get_stressor_interaction(data = experiment_data2, temp = 38, light = light_for_temp),
-                          get_stressor_interaction(data = experiment_data2, temp = 40, light = light_for_temp),
-                          get_stressor_interaction(data = experiment_data2, temp = 42, light = light_for_temp)) %>% within({
-                            Days <-  t
-                            T. <- factor(T., levels = c(42, 40, 38, 36))
-                          })
-
-light_data <- rbind(get_stressor_interaction(data = experiment_data2, temp = temp_for_light, light = 200),
-                    get_stressor_interaction(data = experiment_data2, temp = temp_for_light, light = 400),
-                    get_stressor_interaction(data = experiment_data2, temp = temp_for_light, light = 600),
-                    get_stressor_interaction(data = experiment_data2, temp = temp_for_light, light = 800)) %>% within({
-                      Days <- t
-                      I. <- factor(I.)
-                    })
-
-
-myColors <- brewer.pal(4,"YlOrRd")
-names(myColors) <- levels(experiment_data$Stressor)
-colScale <- scale_colour_manual(name = "Stressor",values = myColors)
-
-names(myColors) <- rev(levels(temperature_data$T.))
-colScale <- scale_colour_manual(name = "Temp",values = myColors)
-K <-  this_param_set$B.max
-
-# LRR plot
-g4A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))+
+B.max <-  this_param_set$B.max
+g1B <- ggplot(experiment_data, aes(x = t, y = B, colour = Stressor))+
   geom_line(size = 2)+
   colScale+
-  #  ylim(-1.25,1.25)+
-  geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  xlab("Time (days)") + 
+  xlab("Time (days)") + #labs(colour = "Stressor") +
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(rho)) +
+  ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
+  theme_bw()+ scale_y_continuous(breaks = seq(100, 600, 100)) + 
+  geom_hline(yintercept=B.max, lty = 2, size = 1.5)+
   theme_clean()+
   ggtitle("Population sub-model")+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 18))+
-  theme(axis.title.y = element_text(size = 18))
-g4A
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 
-names(myColors) <- rev(levels(light_data$I.))
-colScale <- scale_colour_manual(name = "Light",values = myColors)
-K <-  this_param_set$B.max
+g1B
 
-g4B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
-  geom_line(size = 2)+
-  colScale+
-  geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  # ylim(-1.25,1.25)+
-  xlab("Time (days)")  + 
-  theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(rho)) + labs(color = "Light") +
-  theme_clean()+
-  theme(axis.text.x = element_text(size = 14))+
-  theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 18))+
-  theme(axis.title.y = element_text(size = 18))
-g4B
+
+
+# setwd and load libraries 
+library(purrr)
+library(ggplot2)
+library(tidyr)
+library(patchwork)
+library(dplyr)
+library(gridExtra)
+library(gganimate)
+library(RColorBrewer)
+library(ggthemes)
+
+mytime <- format(Sys.time(), "%Y_%m_%d")
 
 # source functions 
 source("Functions/MC_conversion_functions.r")
@@ -187,6 +162,7 @@ this_param_set <- list(
   v = 0.05     # consumer mortality 
 )
 
+
 # testing under optimal conditions 
 xout <- pmap(this_param_set, biomass.int.wrapper.cons.foodweb) 
 plot(y= xout[1][[1]][[2]], 
@@ -198,6 +174,13 @@ lines(y = xout[1][[1]][[1]],
       x = seq(this_param_set[["dt"]], this_param_set[["tmax"]]*this_param_set[["dt"]], 
               by = this_param_set[["dt"]]), col = "blue", lwd = 2)
 
+# ---------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+# create parameter sequence to run model on and use expand.grid to use all combinations 
+# ---------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+
+
 # Generate the treatments we want to simulate
 tempsens <- c(35, seq(36, 42, by = 2))
 lightsens <- seq(200, 1000, by = 200)
@@ -208,6 +191,7 @@ templight <- expand.grid(T. = tempsens, I. = lightsens)
 
 this_param_set$T. <- templight$T.
 this_param_set$I. <- templight$I.
+
 
 xout <- pmap(this_param_set, biomass.int.wrapper.cons.foodweb) 
 
@@ -223,6 +207,7 @@ xout3 <- xout2 %>%
 
 #templight$net.growth <- xout
 temp_light_vary <- xout3 # match ovs here for light_vary and temp_vary 
+
 
 # ----------------------------------------
 # Plot outputs and investigation of metrics
@@ -251,76 +236,50 @@ Out <- rbind(control, Light, Temp, stress) %>% within({
   Stressor <- ordered(Stressor, levels = c("Control", "Light Stress", "Temp Stress", "Temp + Light Stress"))
 })
 
-# Stressor interaction plots ----------------------------------------------
-light_for_temp <- 200
-temp_for_light <- 42
+# # Investigation of IR
+# IR_data<- data.frame(
+#   IR = log((stress$biomass - control$biomass)/(Light$biomass + Temp$biomass - 2*control$biomass)),
+#   base_additive = (stress$biomass - control$biomass) - (Light$biomass + Temp$biomass - 2*control$biomass),
+#   log_base_additive = (log(stress$biomass) - log(control$biomass)) - (log(Light$biomass) + log(Temp$biomass) - 2*log(control$biomass)),
+#   Days = (stress$time-1)/24
+# )
+# 
+# par(mfrow = c(1,2))
+# plot(y = IR_data$base_additive, x = IR_data$Days, xlab = "Days", ylab = expression(h[AB]-(h[A]+h[B])))
+# plot(y = IR_data$log_base_additive, x = IR_data$Days, xlab = "Days", ylab = expression(log~version~h[AB]-(h[A]+h[B])))
+# plot(y = IR_data$IR[-1], x = IR_data$Days[-1], xlab = "Days", ylab = expression(I[R]))
 
-temperature_data <- rbind(get_stressor_interaction(data = temp_light_vary, temp = 36, light = light_for_temp),
-                          get_stressor_interaction(data = temp_light_vary, temp = 38, light = light_for_temp),
-                          get_stressor_interaction(data = temp_light_vary, temp = 40, light = light_for_temp),
-                          get_stressor_interaction(data = temp_light_vary, temp = 42, light = light_for_temp)) %>% within({
-                            Days <-  (time-1)/24
-                            T. <- factor(T., levels = c(42, 40, 38, 36))
-                          })
 
-light_data <- rbind(get_stressor_interaction(data = temp_light_vary, temp = temp_for_light, light = 200),
-                    get_stressor_interaction(data = temp_light_vary, temp = temp_for_light, light = 400),
-                    get_stressor_interaction(data = temp_light_vary, temp = temp_for_light, light = 600),
-                    get_stressor_interaction(data = temp_light_vary, temp = temp_for_light, light = 800)) %>% within({
-                      Days = (time-1)/24
-                      I. <- factor(I., levels = c(200, 400, 600, 800))
-                    })
+# Biomass over time -------------------------------------------------------
+
 
 library(RColorBrewer)
-myColors <- brewer.pal(4,"YlOrRd")
-names(myColors) <- levels(Out$Stressor)
-colScale <- scale_colour_manual(name = "Stressor",values = myColors)
+#myColors <- brewer.pal(4,"YlOrRd")
+myColours <- c("#020006", "#388416", "#095fad", "#E31A1C")
+names(myColours) <- levels(Out$Stressor)
+colScale <- scale_colour_manual(name = "Stressor",values = myColours)
 
-names(myColors) <- rev(levels(temperature_data$T.))
-colScale <- scale_colour_manual(name = "Temp",values = myColors)
 K <-  this_param_set$B.max
-
-# LRR plot
-g5A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))+
+g1C <- ggplot(Out, aes(x = time*this_param_set[["dt"]], y = biomass, colour = Stressor))+
   geom_line(size = 2)+
   colScale+
-  #  ylim(-1.25,1.25)+
-  geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  xlab("Time (days)") + 
+  xlab("Time (days)") + #labs(colour = "Stressor") + 
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(rho)) +
+  ylab(bquote('Biomass ('*'g' ~DW ~m^-2*')')) +
+  theme_bw()+
+  geom_hline(yintercept=K, lty = 2, size = 1.5)+
+  scale_y_continuous(breaks = seq(100, 600, 100))+
   theme_clean()+
   ggtitle("Consumer-resource model")+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 18))+
-  theme(axis.title.y = element_text(size = 18))
-g5A
+  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.y = element_text(size = 14))
 
-names(myColors) <- rev(levels(light_data$I.))
-colScale <- scale_colour_manual(name = "Light",values = myColors)
-K <-  this_param_set$B.max
+g1C
 
-g5B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
-  geom_line(size = 2)+
-  colScale+
-  geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  # ylim(-1.25,1.25)+
-  xlab("Time (days)")  + 
-  theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(rho)) + labs(color = "Light") +
-  theme_clean()+
-  theme(axis.text.x = element_text(size = 14))+
-  theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 18))+
-  theme(axis.title.y = element_text(size = 18))
-g5B
-
-test <- (g4A + g5A) / (g4B + g5B)
-test <- test + plot_annotation(tag_levels = 'A')
-test
-
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure4-5_combined.tiff"), test, width = 15, height = 10, units = c("in"), dpi = 600)
-
-
+Figure3 <- g1B/g1C
+Figure3 <- Figure2 + plot_annotation(tag_levels = 'A')
+Figure3
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure3.tiff"), Figure3 , width = 8, height = 8, units = c("in"), dpi = 600)
 

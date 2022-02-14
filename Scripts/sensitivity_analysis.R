@@ -215,7 +215,8 @@ bp <- function(x){
     ggtitle(
       paste0(substr(names(sens_params)[[x]], 
                    start = 1, stop = nchar(names(sens_params)[[x]]) - 1), 
-      " = ", sens_params[[x]])
+      " = ", sens_params[[x]]))+
+        ylab(expression(rho) 
     )
 }
 cp <- function(x) { 
@@ -223,7 +224,8 @@ cp <- function(x) {
     ggtitle(
       paste0(substr(names(sens_params)[[x]], 
                     start = 1, stop = nchar(names(sens_params)[[x]]) - 1), 
-             " = ", sens_params[[x]])
+             " = ", sens_params[[x]]))+
+        ylab(expression(rho) 
     )
 }
 
@@ -232,7 +234,7 @@ fig1 <- (bp(1) + bp(2) + bp(3))/ (bp(4) + bp(5) + bp(6)) /
   (bp(13) + bp(14) + plot_spacer())
 #fig1 <-fig1 + plot_annotation(tag_levels = 'A')
 fig1
-ggsave(path = "Plots", filename = "2021-06-15_sens_temps_biomass.png", fig1, 
+ggsave(path = "Plots", filename = "2021-11-09_sens_temps_biomass.png", fig1, 
        width = 23, height = 30, units = c("cm"), dpi = 300)
 
 fig2 <- (cp(1) + cp(2) + cp(3))/ (cp(4) + cp(5) + cp(6)) /
@@ -240,7 +242,7 @@ fig2 <- (cp(1) + cp(2) + cp(3))/ (cp(4) + cp(5) + cp(6)) /
   (cp(13) + cp(14) + plot_spacer())
 #fig2 <-fig2 + plot_annotation(tag_levels = 'A')
 fig2
-ggsave(path = "Plots", filename = "2021-06-15_sens_temps_consumer.png", fig2, 
+ggsave(path = "Plots", filename = "2021-11-09_sens_temps_consumer.png", fig2, 
        width = 23, height = 30, units = c("cm"), dpi = 300)
 
 fig3 <- (cp(15) + ylim(c(-1.5, 1.5)) + cp(16) + ylim(c(-1.5, 1.5)))/(cp(17) + ylim(c(-4, 4)) + cp(18) + ylim(c(-32, 20)))

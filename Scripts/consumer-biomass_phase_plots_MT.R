@@ -75,14 +75,14 @@ treatment_name <- c("Control", "Light Stress", "Temp Stress",
 #y0 <- matrix(c(66, 1, 500, 20, 200, 35, 500, 80, 300, 100), ncol = 2, nrow = 5, byrow = TRUE) # base set
 y0 <- as.matrix(expand.grid(seq(1,580, length.out = 5), seq(1,130, length.out = 5)))
 
-png(filename = "Plots/phase_plots4_mt_A.png", width = 22, height = 22, units = "cm",  res = 300)
-par(mfrow = c(2,1))
+png(filename = "Plots/phase_plots4_mt_AB.png", width = 22, height = 11, units = "cm",  res = 300)
+par(mfrow = c(1,2))
 par(mar = c(4.5, 4.8, 1.1, 0.9))
 
-
+for (i in 1:nrow(templight)){
   # Update the parameter set
 #fig1A  
-  this_param_set[c("T.", "I.")] <- templight[1,]
+  this_param_set[c("T.", "I.")] <- templight[i,]
 
   { # Generate the phase plot for the given parameters
   lotkaVolterra.flowField <- flowField(dBdt.s.consumer.foodweb, 
@@ -103,12 +103,13 @@ par(mar = c(4.5, 4.8, 1.1, 0.9))
                                          parameters = this_param_set, colour = rep("black", nrow(y0)),
                                          state.names = c("B","X"))
   
-  text(x = 25,y = 120, LETTERS[[A]], cex = 2)
+  text(x = 25,y = 120, LETTERS[[i]], cex = 2)
   axis(1, at = seq(0,600, by = 100), las=1, cex.axis = 1.3)
   axis(2, at = seq(0,120, by = 20), las=1, cex.axis = 1.3)
 
   }
-
+}
+dev.off()
 
 # ------------------------------------------------------------------------------------------------------
 #   Sensitivity for BIOMASS FOODWEB MODEL 
@@ -258,6 +259,6 @@ colScale+
 g1
 
 
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure5_FOODWEB_TEMP-LIGHT_initial_conditions_1.png"), g1, width = 10, height = 10, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_Figure5_FOODWEB_TEMP-LIGHT_initial_conditions_1.png"), g1, width = 22, height = 11, units = c("cm"), dpi = 300)
 
 

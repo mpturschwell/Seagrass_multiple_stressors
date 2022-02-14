@@ -1,3 +1,4 @@
+#Fig1
 
 library(purrr)
 library(tidyverse)
@@ -44,8 +45,8 @@ D_R <- function(T., I., B_range, T.control = 35, I.control = 1000, params = this
   
   Y_x <- function(T_type, I_type, Ca_type){
     net_growth[ df$T. == ifelse(T_type == "C", T.control, T.) & 
-                      df$I. == ifelse(I_type == "C", I.control, I.) & 
-                      df$Ca == Ca_type]
+                  df$I. == ifelse(I_type == "C", I.control, I.) & 
+                  df$Ca == Ca_type]
   }
   
   D_R_lwr <- Y_x("C", "C", lwr_B) +  Y_x("S", "S", lwr_B) - 
@@ -62,7 +63,7 @@ B_range <- c(0, this_param_set[["B.max"]]*1.25)
 # Plot a line for ggplot
 line_TI <- function(T., I.){
   geom_line(aes(x = B_range/this_param_set[["B.max"]]*100, y = D_R(T. = T., I. = I., B_range = B_range), 
-                     colour = paste0("Temp = ", T., ", Light = ", I.) ), size = 2)
+                colour = paste0("Temp = ", T., ", Light = ", I.) ), size = 2)
 }
 
 colours <-  c("Temp = 42, Light = 200" = "#E31A1C",
@@ -90,9 +91,9 @@ p1a <- ggplot() +
 p1a
 
 colours2 <-  c("Temp = 42, Light = 200" = "#E31A1C",
-              "Temp = 42, Light = 400" =  "#FD8D3C",
-              "Temp = 42, Light = 600" =  "#FECC5C",
-              "Temp = 42, Light = 800" =  "#FFFFB2")
+               "Temp = 42, Light = 400" =  "#FD8D3C",
+               "Temp = 42, Light = 600" =  "#FECC5C",
+               "Temp = 42, Light = 800" =  "#FFFFB2")
 
 p1b <- ggplot() + 
   line_TI(42, 200) + 
@@ -117,26 +118,5 @@ p1 <- p1 + plot_annotation(tag_levels = 'A')
 p1
 
 ggsave(path = "Plots", filename = paste0(mytime, "_Figure2.tiff"), p1, width = 12, height = 12, units = c("in"), dpi = 600)
-
-
-
-# One for current system
-this_param_set[["T.opt"]] <- 35
-p1a
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure2_NETGROWTH_DR_Topt-35.png"),
-       p1, width = 10, height = 8, units = c("in"), dpi = 300)
-
-# Change Topt
-this_param_set[["T.opt"]] <- 20
-p1a
-ggsave(path = "Plots", filename = paste0(mytime, "_Figure2_netgrowth_DR_Topt-20.png"),
-       p1, width = 10, height = 10, units = c("in"), dpi = 300)
-
-# Change Topt
-this_param_set[["T.opt"]] <- 35
-this_param_set[["T.max"]] <- 50
-p1
-ggsave(path = "Plots", filename = "2021-07-21_netgrowth_DR_Topt-20.png",
-       p1, width = 10, height = 10, units = c("in"), dpi = 300)
 
 
