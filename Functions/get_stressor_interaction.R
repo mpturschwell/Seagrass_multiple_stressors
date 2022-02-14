@@ -25,6 +25,9 @@ get_stressor_interaction <- function(data, temp, light, T_control = 35, I_contro
     
   }
   
+  # Flip the sign of the interaction metric - at the request of the reviewer
+  both_stress$interact_metric <- -both_stress$interact_metric
+  
   return(both_stress)
   
 }

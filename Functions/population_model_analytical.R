@@ -14,3 +14,38 @@ B_t <- function(params, t){
     return(g*F.*exp(g*t)/(1 - alph*F.*exp(g*t)))
   })
 }
+
+
+# Other plausible population models ---------------------------------------
+
+ 
+B_t_gompertz <- function(params, t){
+  # Compute at time t using the analytical solution for the gompertz model
+  # see the doc ""
+  
+  with(params, {
+    
+    P.max <-  tanh(I./Ik)*PT.max*(T.max-T.)/(T.max - T.opt) * (T./T.opt)^(T.opt/(T.max - T.opt))
+    R <- R.max*(RT.max-T.)/(RT.max-RT.opt) * (T./RT.opt) ^ (RT.opt/(RT.max-RT.opt)) 
+    output <- B.max*exp(-(R + M)/P.max + (log(B_init/B.max) + (R + M)/P.max)*exp(-P.max*t))
+    
+    return(output)
+  })
+}
+
+B_t_pmaxdepend <- function(params, t){
+  # Compute at time t using the analytical solution for the gompertz model
+  # see the doc ""
+  
+  with(params, {
+    
+    P.max <-  tanh(I./Ik)*PT.max*(T.max-T.)/(T.max - T.opt) * (T./T.opt)^(T.opt/(T.max - T.opt))
+    R <- R.max*(RT.max-T.)/(RT.max-RT.opt) * (T./RT.opt) ^ (RT.opt/(RT.max-RT.opt)) 
+    
+    output <- ((P.max - R - M)/psi)/(1-(1-(P.max - R - M)/(psi*B_init))*exp(-(P.max - R - M)*t))
+      
+    return(output)
+    
+  })
+}
+
