@@ -104,12 +104,17 @@ K <-  this_param_set$B.max
 g5A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))+
   geom_line(size = 2)+
   colScale+
-  #  ylim(-1.25,1.25)+
+    ylim(-1.25,1.25)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) +
-  theme_bw()
+  ylab(expression(rho)) +
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 18))+
+  theme(axis.title.y = element_text(size = 18))
+
 
 names(myColors) <- rev(levels(light_data$I.))
 colScale <- scale_colour_manual(name = "Light",values = myColors)
@@ -119,11 +124,16 @@ g5B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   geom_line(size = 2)+
   colScale+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  # ylim(-1.25,1.25)+
+   ylim(-1.25,1.25)+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) + labs(color = "Light") +
-  theme_bw()
+  labs(color = "Light") +
+  ylab(expression(rho)) +
+  theme_clean()+
+  theme(axis.text.x = element_text(size = 14))+
+  theme(axis.text.y = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 18))+
+  theme(axis.title.y = element_text(size = 18))
 
 })
 
@@ -176,8 +186,8 @@ xout <- pmap(this_param_set, biomass.int.wrapper.cons.foodweb, model = "base")
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-base_temp_plot <- g5A
-base_light_plot <- g5B
+base_temp_plot <- g5A+ ggtitle("Base model")
+base_light_plot <- g5B+ ggtitle("Base model")
 
 
 # Holling type II model plots ---------------------------------------------
@@ -193,8 +203,8 @@ xout <- pmap(hol_params, biomass.int.wrapper.cons.foodweb, model = "holling2")
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-hol_temp_plot <- g5A
-hol_light_plot <- g5B
+hol_temp_plot <- g5A+ ggtitle("Holling Type II model")
+hol_light_plot <- g5B+ ggtitle("Holling Type II model")
 
 # Gompertz model plots ----------------------------------------------------
 
@@ -208,8 +218,8 @@ xout <- pmap(gomp_params, biomass.int.wrapper.cons.foodweb, model = "gompertz")
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-gomp_temp_plot <- g5A
-gomp_light_plot <- g5B
+gomp_temp_plot <- g5A+ ggtitle("Gompertz model")
+gomp_light_plot <- g5B+ ggtitle("Gompertz model")
 
 # Pmax dependent model plots ----------------------------------------------
 
@@ -225,21 +235,21 @@ xout <- pmap(pdep_params, biomass.int.wrapper.cons.foodweb, model = "pmaxdepend"
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-pdep_temp_plot <- g5A
-pdep_light_plot <- g5B
+pdep_temp_plot <- g5A+ ggtitle("Pmax model")
+pdep_light_plot <- g5B + ggtitle("Pmax model")
 
 
 # Summary of model plots --------------------------------------------------
 
 # Compare temperature findings
-(base_temp_plot + gomp_temp_plot) / ( pdep_temp_plot + hol_temp_plot)
+(base_temp_plot + gomp_temp_plot) / ( pdep_temp_plot + hol_temp_plot)+plot_annotation(tag_levels = 'A')
 
-ggsave(filename = "Plots/model_sens_consumer_temperature.png", width = 20, height = 15, units = "cm")
+ggsave(filename = "Plots/model_sens_consumer_temperature.png", width = 8, height = 6, units = c("in"), dpi = 300)
 
 # Compare light findings
-(base_light_plot + gomp_light_plot) / (pdep_light_plot + hol_light_plot)
+(base_light_plot + gomp_light_plot) / (pdep_light_plot + hol_light_plot)+plot_annotation(tag_levels = 'A')
 
-ggsave(filename = "Plots/model_sens_consumer_light.png", width = 20, height = 15, units = "cm")
+ggsave(filename = "Plots/model_sens_consumer_light.png", width = 8, height = 6, units = c("in"), dpi = 300)
 
 
 # Function to change the time limit to the first 50 days
@@ -251,12 +261,12 @@ ltrans <- function(x){
 
 # Compare temperature findings
 (ltrans(base_temp_plot) + ltrans(gomp_temp_plot)) / 
-  ( ltrans(pdep_temp_plot) + ltrans(hol_temp_plot))
+  ( ltrans(pdep_temp_plot) + ltrans(hol_temp_plot))+plot_annotation(tag_levels = 'A')
 
-ggsave(filename = "Plots/transient_model_sens_consumer_temperature.png", width = 20, height = 15, units = "cm")
+ggsave(filename = "Plots/transient_model_sens_consumer_temperature.png", width = 8, height = 6, units = c("in"), dpi = 300)
 
 # Compare light findings
 (ltrans(base_light_plot) + ltrans(gomp_light_plot)) / 
-  (ltrans(pdep_light_plot) + ltrans(hol_light_plot))
+  (ltrans(pdep_light_plot) + ltrans(hol_light_plot))+plot_annotation(tag_levels = 'A')
 
-ggsave(filename = "Plots/transient_model_sens_consumer_light.png", width = 20, height = 15, units = "cm")
+ggsave(filename = "Plots/transient_model_sens_consumer_light.png", width = 8, height = 6, units = c("in"), dpi = 300)

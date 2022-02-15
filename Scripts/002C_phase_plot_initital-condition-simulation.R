@@ -109,22 +109,23 @@ for (i in 1:nrow(templight)){
                                            col = c("blue", "red"), lwd = 3,
                                            add.legend = FALSE, cex = 2.5)
     
-  #  lotkaVolterra.trajectory <- trajectory(dBdt.s.consumer.foodweb_phase, y0 = y0, tlim = c(0,1000), tstep = 1/24,
-  #                                         parameters = this_param_set, colour = rep("black", nrow(y0)),
-  #                                         state.names = c("B","X"))
+    lotkaVolterra.trajectory <- trajectory(dBdt.s.consumer.foodweb_phase, y0 = y0, tlim = c(0,1000), tstep = 1/24,
+                                           parameters = this_param_set, colour = rep("black", nrow(y0)),
+                                           state.names = c("B","X"))
     
-    text(x = 25,y = 120, LETTERS[[i]], cex = 2)
-    axis(1, at = seq(0,600, by = 100), las=1, cex.axis = 1.3)
-    axis(2, at = seq(0,120, by = 20), las=1, cex.axis = 1.3)
+ #   text(x = -50,y = 140, LETTERS[[i]], cex = 1.4)
+    axis(1, at = seq(0,600, by = 100), las=1, cex.axis = 1.5)
+    axis(2, at = seq(0,120, by = 20), las=1, cex.axis = 1.5)
     
   }
 }
 dev.off()
 
-# ------------------------------------------------------------------------------------------------------
-#   Sensitivity for BIOMASS FOODWEB MODEL 
-# ------------------------------------------------------------------------------------------------------
-# -------------------------------------
+
+#   -----------------------------------------------------------------------
+# INITIAL CONDITIONS FIG 5C -----------------------------------------------
+#   -----------------------------------------------------------------------
+
 # Input required parameters 
 # -------------------------------------
 this_param_set <- list(
@@ -224,10 +225,10 @@ names(myColors) <- levels(out$init)
 colScale <- scale_colour_manual(name = "Initial Conditions",values = myColors)
 
 # LRR plot
-g1 <- ggplot(out, aes(x = Days, y = interact_metric, colour = init))+
+f5C <- ggplot(out, aes(x = Days, y = interact_metric, colour = init))+
   geom_line(size = 2)+
   colScale+
-  ylim(-0.5,2.25)+
+  ylim(-0.3,2)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
@@ -236,11 +237,10 @@ g1 <- ggplot(out, aes(x = Days, y = interact_metric, colour = init))+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
   theme(axis.title.x = element_text(size = 18))+
-  theme(axis.title.y = element_text(size = 18))#+
-#  annotate("text", x=-40, y=0.23, label= "C",  size = 10)  
-g1
+  theme(axis.title.y = element_text(size = 18))
+f5C
 
 
-ggsave(path = "Plots", filename = paste0(mytime, "_fig5_phase_IC.png"), g1, width = 22, height = 11, units = c("cm"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_fig5_phase_IC.png"), f5C, width = 22, height = 11, units = c("cm"), dpi = 300)
 
 

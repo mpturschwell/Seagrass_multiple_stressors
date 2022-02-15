@@ -2,6 +2,7 @@
 library(tidyverse)
 library(RColorBrewer)
 library(patchwork)
+library(ggthemes)
 
 source("Functions/conversion_functions.R")
 source("Functions/population_model_analytical.R")
@@ -58,19 +59,23 @@ make_plots_expr <- expr({
   
   myColors <- brewer.pal(4,"YlOrRd")
   names(myColors) <- rev(levels(temperature_data$T.))
-  colScale <- scale_colour_manual(name = "Temperature",values = myColors)
+  colScale <- scale_colour_manual(name = "Temp ",values = myColors)
   K <-  this_param_set$B.max
   
   # LRR plot
   g4A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))+
     geom_line(size = 2)+
     colScale+
-    #  ylim(-1.25,1.25)+
     geom_hline(yintercept = 0, lty = 2, size = 0.8)+
+    ylim(-.75,1.25)+
     xlab("Time (days)") + 
     theme(plot.title = element_text(hjust = 0.5))+
-    ylab(expression(I[R])) +
-    theme_bw()
+    ylab(expression(rho)) +
+    theme_clean()+
+    theme(axis.text.x = element_text(size = 14))+
+    theme(axis.text.y = element_text(size = 14))+
+    theme(axis.title.x = element_text(size = 18))+
+    theme(axis.title.y = element_text(size = 18))
   g4A
   
   
@@ -82,11 +87,15 @@ make_plots_expr <- expr({
     geom_line(size = 2)+
     colScale+
     geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-    # ylim(-1.25,1.25)+
+     ylim(-.75,1.25)+
     xlab("Time (days)")  + 
     theme(plot.title = element_text(hjust = 0.5))+
-    ylab(expression(I[R])) + labs(color = "Light") +
-    theme_bw()
+    ylab(expression(rho)) + labs(color = "Light") +
+           theme_clean()+
+           theme(axis.text.x = element_text(size = 14))+
+           theme(axis.text.y = element_text(size = 14))+
+           theme(axis.title.x = element_text(size = 18))+
+           theme(axis.title.y = element_text(size = 18))
 
 })
 
@@ -126,7 +135,7 @@ experiment_data2 <- compare_param(params = this_param_set, t = time_vect,
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-base_temp_plot <- g4A
+base_temp_plot <- g4A+ ggtitle("Base model")
 base_light_plot <- g4B
 
 
@@ -140,7 +149,7 @@ experiment_data2 <- compare_param(params = this_param_set, t = time_vect,
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-gomp_temp_plot <- g4A
+gomp_temp_plot <- g4A+ ggtitle("Gompertz model")
 gomp_light_plot <- g4B
 
 # Pmax dependent model plots ----------------------------------------------
@@ -158,7 +167,7 @@ experiment_data2 <- compare_param(params = pdep_params, t = time_vect,
 eval(make_plots_expr) # Evaluate the expression to generate plots
 
 # bind plots to another name for when we recompute the expression
-pdep_temp_plot <- g4A
+pdep_temp_plot <- g4A + ggtitle("Pmax model")
 pdep_light_plot <- g4B
 
 # Function to change the time limit to the first 50 days
@@ -170,12 +179,12 @@ ltrans <- function(x){
 
 # Compare temperature findings
 (base_temp_plot + gomp_temp_plot + pdep_temp_plot)/
-(base_light_plot + gomp_light_plot + pdep_light_plot)
+(base_light_plot + gomp_light_plot + pdep_light_plot)+plot_annotation(tag_levels = 'A')
 
-ggsave(filename = "Plots/model_sens_population_models.png", width = 30, height = 15, units = "cm")
+ggsave(filename = "Plots/model_sens_population_models.png", width = 12, height = 8, units = c("in"), dpi = 300)
 
 # Compare temperature findings
 (ltrans(base_temp_plot) + ltrans(gomp_temp_plot) + ltrans(pdep_temp_plot))/
-  (ltrans(base_light_plot) + ltrans(gomp_light_plot) + ltrans(pdep_light_plot))
+  (ltrans(base_light_plot) + ltrans(gomp_light_plot) + ltrans(pdep_light_plot))+plot_annotation(tag_levels = 'A')
 
-ggsave(filename = "Plots/transient_model_sens_population_models.png", width = 30, height = 15, units = "cm")
+ggsave(filename = "Plots/transient_model_sens_population_models.png", width = 12, height = 8, units = c("in"), dpi = 300)

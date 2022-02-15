@@ -131,19 +131,19 @@ get_model_IC_data <- function(param_set, model){
 all_mod_IC_df <- c("base", "gompertz", "pmaxdepend", "holling2")
 
 base_df <- this_param_set %>% get_model_IC_data(model = "base") %>%
-  mutate(model = "base")
+  mutate(model = "Base")
 gompertz_df <- this_param_set %>% get_model_IC_data(model = "gompertz") %>% 
-  mutate(model = "gompertz")
+  mutate(model = "Gompertz")
 pmaxdepend_df <- this_param_set %>% 
   within({psi = tanh(1000/Ik)*PT.max*(T.max-35)/(T.max - T.opt) *
            (35/T.opt)^(T.opt/(T.max - T.opt))/B.max}) %>% 
-  get_model_IC_data(model = "pmaxdepend") %>% mutate(model = "pmaxdepend")
+  get_model_IC_data(model = "pmaxdepend") %>% mutate(model = "Pmax")
 holling2_df <- this_param_set %>% 
   within({
     v <- 0.0275
     h <- 3
     }) %>% 
-  get_model_IC_data(model = "holling2") %>% mutate(model = "holling2")
+  get_model_IC_data(model = "holling2") %>% mutate(model = "Holling Type II")
 
 all_mod_IC_df <- bind_rows(base_df, gompertz_df, pmaxdepend_df, holling2_df)
 

@@ -177,7 +177,7 @@ K <-  this_param_set$B.max
 f4C <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))+
   geom_line(size = 2)+
   colScale+
-  #  ylim(-1.25,1.25)+
+  ylim(-0.3,1)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
@@ -198,7 +198,7 @@ f4D <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   geom_line(size = 2)+
   colScale+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  # ylim(-1.25,1.25)+
+  ylim(-0.3,1)+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(rho)) + labs(color = "Light") +
@@ -209,3 +209,4 @@ f4D <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   theme(axis.title.y = element_text(size = 18))
 f4D
 
+save(f3B, f4C, f4D, this_param_set, file = "Scripts/Data/consumer-resource_figs_for_paper.RDA")

@@ -11,7 +11,6 @@ source("Functions/photo_light_shade_function.R")
 source("Functions/photosyn_shade_function.R")
 source("Functions/photo_temp_function.R")
 source("Functions/net.growth_shade_function.R")
-#source("Functions/get_stressor_interaction.R")
 
 mytime <- format(Sys.time(), "%Y_%m_%d")
 
@@ -108,7 +107,7 @@ p1b <- ggplot() +
   theme_clean()+
   theme(axis.text.x = element_text(size = 14))+
   theme(axis.text.y = element_text(size = 14))+
-  theme(axis.title.x = element_text(size = 14))+
+  theme(axis.title.x = element_text(size = 18))+
   theme(axis.title.y = element_text(size = 18))
 
 p1b

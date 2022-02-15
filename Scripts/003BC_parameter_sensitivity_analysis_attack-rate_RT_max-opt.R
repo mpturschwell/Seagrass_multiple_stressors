@@ -183,8 +183,8 @@ g1 <- ggplot(biomass_data, aes(x = Days, y = interact_metric, colour = T.))+
   # ylim(-1.25,1.25)+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
-  ylab(expression(I[R])) + labs(color = "Light") +
-  theme_bw() + ylim(-1.5, 1.5)
+  ylab(expression(rho)) + labs(color = "Light") +
+  theme_bw() + ylim(-3.5, 3.5)
 
 g2 <- ggplot(consumer_data, aes(x = Days, y = interact_metric, 
                                  colour = T.))+
@@ -194,7 +194,7 @@ g2 <- ggplot(consumer_data, aes(x = Days, y = interact_metric,
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(rho)) +
-  theme_bw() + ylim(-1.5, 1.5)
+  theme_bw() + ylim(-3.5, 3.5)
 
 
 IR_plot_list[["biomass_model"]][[i]] <- g1
@@ -225,7 +225,7 @@ fig1 <- (bp(1) + bp(2) + bp(3))/ (bp(4) + bp(5) + bp(6)) /
   (bp(13) + bp(14) + plot_spacer())
 #fig1 <-fig1 + plot_annotation(tag_levels = 'A')
 fig1
-ggsave(path = "Plots", filename = "2021-06-15_sens_temps_biomass.png", fig1, 
+ggsave(path = "Plots", filename = "SI1_sensitivity_temps_biomass.png", fig1, 
        width = 23, height = 30, units = c("cm"), dpi = 300)
 
 fig2 <- (cp(1) + cp(2) + cp(3))/ (cp(4) + cp(5) + cp(6)) /
@@ -233,13 +233,13 @@ fig2 <- (cp(1) + cp(2) + cp(3))/ (cp(4) + cp(5) + cp(6)) /
   (cp(13) + cp(14) + plot_spacer())
 #fig2 <-fig2 + plot_annotation(tag_levels = 'A')
 fig2
-ggsave(path = "Plots", filename = "2021-06-15_sens_temps_consumer.png", fig2, 
+ggsave(path = "Plots", filename = "SI2_sensitivity_temps_consumer.png", fig2, 
        width = 23, height = 30, units = c("cm"), dpi = 300)
 
-fig3 <- (cp(15) + ylim(c(-1.5, 1.5)) + cp(16) + ylim(c(-1.5, 1.5)))/(cp(17) + ylim(c(-4, 4)) + cp(18) + ylim(c(-32, 20)))
+fig3 <- (cp(15) + ylim(c(-1.5, 1.5)) + cp(16) + ylim(c(-1.5, 1.5)))/(cp(17) + ylim(c(-4, 4)) + cp(18) + ylim(c(-25, 35)))
 #fig3 <-fig3 + plot_annotation(tag_levels = 'A')
 fig3
-ggsave(path = "Plots", filename = "2021-06-15_sens_attack_consumer.png", fig3, 
+ggsave(path = "Plots", filename = "SI3_sensitivity_attack_consumer.png", fig3, 
        width = 20, height = 15, units = c("cm"), dpi = 300)
 
 # ggsave(path = "Plots", filename = "2021-06-15_sensi.png", fig5, width = 10, height = 10, units = c("in"), dpi = 300)

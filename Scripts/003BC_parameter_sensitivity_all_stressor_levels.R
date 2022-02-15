@@ -254,7 +254,7 @@ K <-  this_param_set$B.max
 s1F <- ggplot(light_data_2, aes(x = Days, y = interact_metric, colour = I.))+
   geom_line(size = 2)+
   colScale+
-  ggtitle("Tempperature = 36")+
+  ggtitle("Temperature = 36")+
   ylim(-0.5,0.5)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)")  + 
@@ -271,7 +271,7 @@ s1 <- (s1A + s1B) / (s1C + s1D) / (s1E +s1F)
 s1 <- s1 + plot_annotation(tag_levels = 'A')
 s1
 
-ggsave(path = "Plots", filename = paste0(mytime, "_sensitivity.png"), s1, width = 12, height = 8, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_population-model_sensitivity_all-stressors.tiff"), s1, width = 12, height = 8, units = c("in"), dpi = 300)
 
 
 
@@ -442,7 +442,7 @@ s2A <- ggplot(temperature_data, aes(x = Days, y = interact_metric, colour = T.))
   colScale+
   ggtitle("Light = 400")+
   
-  ylim(-.5,.25)+
+  ylim(-.5,.5)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
@@ -464,7 +464,7 @@ s2B <- ggplot(light_data, aes(x = Days, y = interact_metric, colour = I.))+
   ggtitle("Temperature = 40")+
   colScale+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  ylim(-.5,.25)+
+  ylim(-.5,.5)+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(rho)) + labs(color = "Light") +
@@ -485,7 +485,7 @@ s2C <- ggplot(temperature_data_1, aes(x = Days, y = interact_metric, colour = T.
   geom_line(size = 2)+
   colScale+
   ggtitle("Light = 600")+
-  ylim(-.5,.25)+
+  ylim(-.5,.55)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   xlab("Time (days)") + 
   theme(plot.title = element_text(hjust = 0.5))+
@@ -506,7 +506,7 @@ s2D <- ggplot(light_data_1, aes(x = Days, y = interact_metric, colour = I.))+
   geom_line(size = 2)+
   colScale+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
-  ylim(-.5,.25)+
+  ylim(-.5,.5)+
   ggtitle("Temperature = 38")+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
@@ -526,7 +526,7 @@ K <-  this_param_set$B.max
 s2E <- ggplot(temperature_data_2, aes(x = Days, y = interact_metric, colour = T.))+
   geom_line(size = 2)+
   colScale+
-  ylim(-.5,.25)+
+  ylim(-.5,.5)+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   ggtitle("Light = 800")+
   xlab("Time (days)") + 
@@ -549,7 +549,7 @@ s2F <- ggplot(light_data_2, aes(x = Days, y = interact_metric, colour = I.))+
   colScale+
   geom_hline(yintercept = 0, lty = 2, size = 0.8)+
   ggtitle("Temperature = 36")+
-  ylim(-.5,.25)+
+  ylim(-.5,.5)+
   xlab("Time (days)")  + 
   theme(plot.title = element_text(hjust = 0.5))+
   ylab(expression(rho)) + labs(color = "Light") +
@@ -565,6 +565,6 @@ s2 <- (s2A + s2B) / (s2C + s2D) / (s2E +s2F)
 s2 <- s2 + plot_annotation(tag_levels = 'A')
 s2
 
-ggsave(path = "Plots", filename = paste0(mytime, "_parameter_sensitivity_consumner-resource_all-stressors.png"), s2, width = 12, height = 8, units = c("in"), dpi = 300)
+ggsave(path = "Plots", filename = paste0(mytime, "_parameter_sensitivity_consumner-resource_all-stressors.tiff"), s2, width = 12, height = 8, units = c("in"), dpi = 300)
 
 
