@@ -7,6 +7,7 @@ library(patchwork)
 library(gridExtra)
 library(gganimate)
 library(RColorBrewer)
+library(ggthemes)
 
 
 # source functions 
